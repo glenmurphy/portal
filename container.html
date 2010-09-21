@@ -1,0 +1,33 @@
+<html>
+<body style="margin:0px; scrolling:no; overflow:hidden;"></body>
+<script>
+var args = document.location.hash.substr(1).split("#")
+var url = unescape(args[0]);
+var body_width = args[1];
+var body_height = args[2];
+var body_top = args[3];
+var body_left = args[4];
+var port_width = args[5];
+var port_height = args[6];
+
+resizeTo(parseInt(port_width), parseInt(port_height) + 64);
+
+var ifr = document.createElement('iframe');
+ifr.frameBorder = 0;
+ifr.scrolling = 'no';
+ifr.width = body_width;
+ifr.height = body_height;
+ifr.src = url;
+ifr.style.position = 'absolute';
+ifr.style.top = body_top;
+ifr.style.left = body_left;
+document.body.appendChild(ifr);
+ifr.addEventListener('load', ifr_load, true);
+
+function ifr_load() {
+  window.console.log("ifr load");
+  window.scrollTo(0, 0);
+  document.body.overflow = 'hidden';
+}
+</script>
+</html>

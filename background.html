@@ -1,0 +1,36 @@
+<html>
+<body>
+<script>
+chrome.browserAction.onClicked.addListener(function(tab) {
+  try {
+    chrome.tabs.executeScript(null,
+                             {file:"portal.js"});
+  } catch(e) {
+    window.alert("This page cannot be clipped");
+  }
+});
+
+// global hax to make you sads.
+chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+  /* if (sender.id != // THSIID) return */
+  if (request.type == "launchPortal") {
+    window.console.log("launching portal");
+    var url = request.url.split("#")[0];
+    var pop = chrome.windows.create({
+      url : "container.html#" + escape(url) + 
+            "#" + request.body_width + 
+            "#" + request.body_height + 
+            "#" + request.body_top + 
+            "#" + request.body_left +
+            "#" + request.port_width + 
+            "#" + request.port_height,
+      width : request.port_width,
+      height : request.port_height,
+      type : "popup"
+    });
+  }
+});
+
+</script>
+</body>
+</html>
